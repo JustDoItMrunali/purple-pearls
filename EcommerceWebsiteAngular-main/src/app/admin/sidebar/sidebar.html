@@ -1,0 +1,37 @@
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>⚡ Admin Menu</h2>
+    </div>
+
+    <nav class="nav-links">
+      <a routerLink="/admin/admin-dashboard" routerLinkActive="active" class="nav-item">
+        <span class="emoji">📊</span> Dashboard
+      </a>
+
+      <a routerLink="/admin/manage-users" routerLinkActive="active" class="nav-item">
+        <span class="emoji">👥</span> Manage Users
+      </a>
+
+      <a routerLink="/products" routerLinkActive="active" class="nav-item">
+        <span class="emoji">🛍️</span> View Products
+      </a>
+
+      <a routerLink="/admin/addproduct" routerLinkActive="active" class="nav-item">
+        <span class="emoji">🛍️</span> Add Products
+      </a>
+
+      <a routerLink="/admin/user-order" routerLinkActive="active" class="nav-item">
+        <span class="emoji">📦</span> View Orders
+      </a>
+
+      <a routerLink="/admin/profile" routerLinkActive="active" class="nav-item">
+        <span class="emoji">👤</span> My Profile
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-body">
+    <router-outlet></router-outlet>
+  </main>
+</div>

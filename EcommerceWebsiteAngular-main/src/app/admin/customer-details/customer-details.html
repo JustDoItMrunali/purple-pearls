@@ -1,0 +1,35 @@
+<div class="detail-container">
+  <button routerLink="/admin/manage-users" class="btn-back">← Back to Customers</button>
+  @if (customer$ | async; as user) {
+    <div class="profile-card">
+      <div class="card-header">
+        <h2>Customer Profile</h2>
+        <span class="badge">{{ user.role }}</span>
+      </div>
+      <div class="info-list">
+        <div class="info-item">
+          <label>Full Name</label>
+          <p>{{ user.name }}</p>
+        </div>
+        <div class="info-item">
+          <label>Email Address</label>
+          <p>{{ user.email }}</p>
+        </div>
+        <div class="info-item">
+          <label>User ID</label>
+          <p class="id-text">#{{ user.user_id }}</p>
+        </div>
+        <div class="info-item">
+          <label>Account Status</label>
+          <p>
+            <span class="status-text" [class.locked]="user.isLocked"
+              >● {{ user.isLocked ? 'Locked' : 'Active' }}</span
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="loading-state"><p>Loading customer profile...</p></div>
+  }
+</div>

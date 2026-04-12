@@ -1,0 +1,18 @@
+<div class="container">
+  <!-- <pre>{{ order$ | async | json }}</pre> -->
+
+  @if (order$ | async; as orders) {
+    @for (order of orders; track order.order_id) {
+      <div class="card">
+        <h3>Order #{{ order.order_id }} - {{ order.totalAmount | currency: 'INR' }}</h3>
+        <ul>
+          @for (item of order.items; track item.order_item_id) {
+            <li>{{ item.productName }} x {{ item.quantity }}</li>
+          }
+        </ul>
+      </div>
+    } @empty {
+      <p>No orders found in your history.</p>
+    }
+  }
+</div>

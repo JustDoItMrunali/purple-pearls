@@ -1,0 +1,45 @@
+<!-- <h2>In order to place Order please fill the below details</h2>
+<div class="payment-methods">
+  <h2>Select payment options</h2>
+  @for (method of paymentMethods; track method) {
+    <input
+      type="radio"
+      name="payment"
+      [value]="method"
+      [checked]="selectedPayment === method"
+      (change)="onPaymentSelect(method)"
+    />
+    <span>{{ method }}</span>
+    <br />
+  }
+
+  <button (click)="decrement()">Minus</button>
+  <button (click)="increment()">Add</button>
+  <h2>Quantity:{{ quantity }}</h2>
+</div>
+<p>currently selected payment :{{ selectedPayment }}</p>
+
+<button (click)="placeSingleOrder()">Place Order</button>
+<button (click)="placeOrder()">Place cart order</button> -->
+
+<div class="payment-selection">
+  <h3>Select Payment Method</h3>
+  @for (method of paymentMethods; track method) {
+    <label>
+      <input type="radio" name="payment" [value]="method" [(ngModel)]="selectedPayment" />
+      {{ method }}
+    </label>
+  }
+</div>
+
+@if (!isCartOrder) {
+  <div class="quantity-controls">
+    <button (click)="decrement()">-</button>
+    <span>{{ quantity }}</span>
+    <button (click)="increment()">+</button>
+  </div>
+
+  <button class="btn-primary" (click)="placeSingleOrder()">Place Single Order</button>
+} @else {
+  <button class="btn-success" (click)="placeOrder()">Place Cart Order</button>
+}

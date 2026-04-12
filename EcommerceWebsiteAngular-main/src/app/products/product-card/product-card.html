@@ -1,0 +1,51 @@
+<div class="product-card" [routerLink]="['/products', product.product_id]">
+  @if (product.stock <= 0) {
+    <span class="stock-status out-of-stock">Out of Stock</span>
+  } @else if (product.stock < 5) {
+    <span class="stock-status low-stock">Only {{ product.stock }} left!</span>
+  }
+
+  <div class="image-wrapper">
+    <img
+      [src]="product.imagePath ? 'http://localhost:3000/' + product.imagePath : 'assets/image.png'"
+      [alt]="product.name"
+      class="product-image"
+    />
+  </div>
+
+  <div class="product-content">
+    <div class="category-meta">
+      <span class="product-type">{{ product.subCategory?.category?.productType?.name }}</span>
+      <span class="dot"></span>
+      <span class="cat-tag">{{ product.subCategory?.category?.name }}</span>
+    </div>
+
+    <h3 class="product-title">{{ product.name }}</h3>
+
+    <p class="product-description">
+      {{ product.description.length > 70 ? (product.description | slice: 0 : 70) + '...' : product.description }}
+    </p>
+
+    <div class="pricing-row">
+      <span class="current-price">{{ product.price | currency: 'INR' : 'symbol' : '1.2-2' }}</span>
+    </div>
+
+    <div class="card-actions">
+      <button
+        class="btn-buy-now"
+        [routerLink]="['/checkout', product.product_id]"
+        (click)="$event.stopPropagation()"
+      >
+        Buy Now
+      </button>
+      
+      <button
+        class="btn-add-cart"
+        [disabled]="product.stock <= 0"
+        (click)="addCart(product.product_id, 1); $event.stopPropagation()"
+      >
+        <i class="fas fa-cart-plus"></i> Add to Cart
+      </button>
+    </div>
+  </div>
+</div>

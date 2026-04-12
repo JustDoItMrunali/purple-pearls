@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const taxonomy_controller_1 = require("../controllers/taxonomy.controller");
+const TaxonomyRouter = (0, express_1.Router)();
+TaxonomyRouter.get("/product_type", taxonomy_controller_1.TaxonomyController.getAllTypes);
+TaxonomyRouter.get("/product_type/:typeId/categories", taxonomy_controller_1.TaxonomyController.getCategoriesType);
+TaxonomyRouter.get("/categories/:categoryId", taxonomy_controller_1.TaxonomyController.getCategoryById);
+TaxonomyRouter.get("/categories/:categoryId/subcategories", taxonomy_controller_1.TaxonomyController.getSubCategoriesType);
+TaxonomyRouter.get("/subcategories/:subCategoryId", taxonomy_controller_1.TaxonomyController.getSubCategoryById);
+exports.default = TaxonomyRouter;

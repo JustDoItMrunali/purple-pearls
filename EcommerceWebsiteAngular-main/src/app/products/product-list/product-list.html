@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="products">
+    <div class="search-section">
+      <div class="search-wrapper">
+        <input
+          #searchInput
+          type="text"
+          placeholder="Search for products..."
+          (keyup.enter)="onSearch(searchInput.value)"
+        />
+        <button (click)="onSearch(searchInput.value)" class="search-btn">🔍</button>
+      </div>
+    </div>
+    @if (productType$ | async; as productTypes) {
+      
+      <div class="productType-grid">
+        @for (productType of productTypes; track productType.type_id) {
+          <div class="type-item">
+            <p>{{ productType.name }}</p>
+            @if (!$last) {
+              <span class="arrow">→</span>
+            }
+          </div>
+        }
+      </div>
+    }
+    @if (product$ | async; as response) {
+      <div class="product-grid">
+        @for (product of response.data; track product.product_id) {
+          <app-product-card [product]="product"></app-product-card>
+        } @empty {
+          <div class="empty">
+            <p>No products found matching your criteria.</p>
+          </div>
+        }
+      </div>
+
+      <div class="pagination">
+        @for (page of response.pages; track page) {
+          <button
+            class="round-button"
+            (click)="goToPage(page)"
+            [class.active]="page === response.meta.page"
+          >
+            {{ page }}
+          </button>
+        }
+      </div>
+    } @else {
+      <div class="loading">
+        <p>Loading products...</p>
+      </div>
+    }
+  </div>
+</div>

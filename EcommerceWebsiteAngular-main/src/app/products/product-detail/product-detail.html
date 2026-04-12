@@ -1,0 +1,111 @@
+<div class="container">
+  @if (product$ | async; as product) {
+    <nav class="breadcrumb-nav">
+      <span class="breadcrumb-item" routerLink="/">Home</span>
+      <i class="fas fa-chevron-right"></i>
+      <span class="breadcrumb-item active">Product Details</span>
+    </nav>
+
+    <div class="product-grid">
+      <div class="image-card">
+        <div class="main-image-wrapper">
+          <img
+            [src]="
+              product.imagePath
+                ? 'http://localhost:3000/' + product.imagePath
+                : 'assets/image.png'
+            "
+            [alt]="product.name"
+          />
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h1 class="product-title">{{ product.name }}</h1>
+
+        <div class="pricing-block">
+          <span class="price-value">{{
+            product.price | currency: 'INR' : 'symbol' : '1.2-2'
+          }}</span>
+          <span class="stock-pill" [class.out]="product.stock <= 0">
+            {{ product.stock > 0 ? 'In Stock' : 'Out of Stock' }}
+          </span>
+        </div>
+
+        <div class="specs-container">
+          <div class="spec-row">
+            <span class="spec-label">Product Type</span>
+            <span class="spec-value">{{
+              product.subCategory?.category?.productType?.name || 'N/A'
+            }}</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Category</span>
+            <span class="spec-value">{{ product.subCategory?.category?.name || 'N/A' }}</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Sub-Category</span>
+            <span class="spec-value">{{ product.subCategory?.name || 'N/A' }}</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="description-box">
+          <h3 class="section-title">Description</h3>
+          <p class="product-description">{{ product.description }}</p>
+        </div>
+
+        @if (product.stock > 0) {
+          <div class="purchase-actions">
+            <div class="quantity-control">
+              <button class="qty-btn"><i class="fas fa-minus"></i></button>
+              <span class="qty-num">1</span>
+              <button class="qty-btn"><i class="fas fa-plus"></i></button>
+            </div>
+
+            <button class="btn-primary"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="reviews-section">
+      @if (review$ | async; as reviewData) {
+        <div class="review-summary">
+          <h3 class="section-title">Customer Reviews</h3>
+          <div class="stats">
+            <span class="avg-score">⭐ {{ reviewData.averageRating }}</span>
+            <span class="total-text">Based on {{ reviewData.totalReview }} reviews</span>
+          </div>
+        </div>
+
+        <div class="reviews-list">
+          @for (review of reviewData.reviews; track review.review_id) {
+            <div class="review-card">
+              <div class="card-header">
+                <span class="user-name">{{ review.user.name }}</span>
+                <span class="review-date">{{ review.createdAt | date: 'mediumDate' }}</span>
+              </div>
+
+              <div class="star-rating">
+                <span class="rating-pill">{{ review.rating }} ★</span>
+              </div>
+
+              <p class="comment-text">{{ review.comment }}</p>
+            </div>
+          } @empty {
+            <p class="no-reviews">No reviews yet. Be the first!</p>
+          }
+        </div>
+
+        <div class="review-summary">
+                <app-add-review [productId]="product.product_id"></app-add-review>
+
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="loading-spinner">Loading product details...</div>
+  }
+</div>

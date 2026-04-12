@@ -1,0 +1,40 @@
+<div class="filter-sidebar">
+  <h3>Filters</h3>
+
+  <div class="filter-group">
+    <label>Category</label>
+    <select #typeSelect (change)="onFilterChange('typeId', $event)">
+      <option value="">All Types</option>
+      @for (type of types$ | async; track type.type_id) {
+        <option [value]="type.type_id">{{ type.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label>Price Range</label>
+    <div class="price-inputs">
+      <input
+        #minPrice
+        type="number"
+        placeholder="Min"
+        (input)="onPriceChange('minPrice', $event)"
+      />
+      <input
+        #maxPrice
+        type="number"
+        placeholder="Max"
+        (input)="onPriceChange('maxPrice', $event)"
+      />
+    </div>
+  </div>
+
+  <div class="filter-group checkbox">
+    <input #stockCheck type="checkbox" id="inStock" (change)="onFilterChange('inStock', $event)" />
+    <label for="inStock">In Stock Only</label>
+  </div>
+
+  <button class="clear-btn" (click)="resetFilters(typeSelect, minPrice, maxPrice, stockCheck)">
+    Reset All
+  </button>
+</div>

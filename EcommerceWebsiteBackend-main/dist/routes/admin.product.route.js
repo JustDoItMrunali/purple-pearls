@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const User_1 = require("../entities/User");
+const admin_product_controller_1 = require("../controllers/admin.product.controller");
+const AdminProductRouter = (0, express_1.Router)();
+AdminProductRouter.use(auth_middleware_1.requireAuth);
+AdminProductRouter.use((0, auth_middleware_1.requireRole)(User_1.UserRole.ADMIN));
+AdminProductRouter.get("/get-products", admin_product_controller_1.AdminProductController.getAllProducts);
+AdminProductRouter.post("/upload-product", admin_product_controller_1.AdminProductController.createProduct);
+AdminProductRouter.patch("/update-products/:productID", admin_product_controller_1.AdminProductController.updateProduct);
+AdminProductRouter.delete("/products/:productId", admin_product_controller_1.AdminProductController.deleteProduct);
+exports.default = AdminProductRouter;

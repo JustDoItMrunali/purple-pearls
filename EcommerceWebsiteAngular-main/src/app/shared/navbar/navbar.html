@@ -1,0 +1,39 @@
+<header class="main-header">
+  <div class="brand-zone">
+    <div class="logo" routerLink="/">
+      PURPLE <span>PEARLS</span>
+    </div>
+  </div>
+
+  <div class="nav-zone">
+    <nav class="main-nav">
+      <a routerLink="/" class="nav-link">HOME</a>
+      <a routerLink="/products" class="nav-link">PRODUCTS</a>
+      
+      @if (currentUser$ | async; as user) {
+        <a routerLink="/dashboard" class="nav-link">DASHBOARD</a>
+        <a routerLink="/order" class="nav-link">MY ORDERS</a>
+        
+        <div class="dropdown-wrapper">
+          <div class="nav-link profile-trigger">
+             <i class="fas fa-user-circle"></i>
+             <span>ACCOUNT</span>
+          </div>
+          <div class="dropdown-menu">
+            <div class="dropdown-header">{{ user.email }}</div>
+            <a routerLink="/profile">EDIT PROFILE</a>
+            <a (click)="logout()" class="logout-item">LOGOUT</a>
+          </div>
+        </div>
+      } @else {
+        <a routerLink="/auth/login" class="nav-link">LOGIN</a>
+        <a routerLink="/auth/register" class="nav-link">REGISTER</a>
+      }
+
+      <a routerLink="/cart" class="nav-link cart-link">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="badge">3</span>
+      </a>
+    </nav>
+  </div>
+</header>

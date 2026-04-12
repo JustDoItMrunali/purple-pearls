@@ -1,0 +1,12 @@
+{
+  "name": "ecommerce-root",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"npm run dev-front\" \"npm run dev-back\"",
+    "dev-front": "cd EcommerceWebsiteAngular-main && ng serve",
+    "dev-back": "cd EcommerceWebsiteBackend-main && nodemon src/index.ts"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

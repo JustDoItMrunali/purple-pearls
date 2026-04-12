@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const User_1 = require("../entities/User");
+const order_controller_1 = require("../controllers/order.controller");
+const OrderRouter = (0, express_1.Router)();
+OrderRouter.post("/place_order", auth_middleware_1.requireAuth, (0, auth_middleware_1.requireRole)(User_1.UserRole.USER), order_controller_1.OrderController.placeOrder);
+OrderRouter.get("/get_my_orders", auth_middleware_1.requireAuth, (0, auth_middleware_1.requireRole)(User_1.UserRole.USER), order_controller_1.OrderController.getMyOrderrs);
+OrderRouter.get("/orders/:orderID", auth_middleware_1.requireAuth, (0, auth_middleware_1.requireRole)(User_1.UserRole.USER), order_controller_1.OrderController.getOrderDetails);
+OrderRouter.post("/place_single_order", auth_middleware_1.requireAuth, (0, auth_middleware_1.requireRole)(User_1.UserRole.USER), order_controller_1.OrderController.placeSingleOrder);
+exports.default = OrderRouter;

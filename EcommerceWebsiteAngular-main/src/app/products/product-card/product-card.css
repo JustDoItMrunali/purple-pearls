@@ -1,0 +1,156 @@
+.product-card {
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  border: 1px solid var(--border-purple);
+  position: relative;
+  max-width: 340px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(97, 29, 149, 0.15);
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 260px;
+  background-color: var(--light-lilac);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.08);
+}
+
+.product-content {
+  padding: 24px;
+}
+
+.category-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  background: var(--border-purple);
+  border-radius: 50%;
+}
+
+.product-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.product-description {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  min-height: 40px;
+}
+
+.current-price {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--primary-purple);
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* --- Action Buttons --- */
+.card-actions {
+  display: flex;
+  flex-direction: column; /* Stacked buttons like modern boutique apps */
+  gap: 10px;
+}
+
+/* Buy Now: Outline Purple */
+.btn-buy-now {
+  width: 100%;
+  background: var(--white);
+  color: var(--primary-purple);
+  border: 2px solid var(--primary-purple);
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-buy-now:hover {
+  background: var(--light-lilac);
+}
+
+/* Add to Cart: Solid Purple */
+.btn-add-cart {
+  width: 100%;
+  background: var(--primary-purple);
+  color: var(--white);
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-add-cart:hover:not(:disabled) {
+  filter: brightness(1.2);
+  box-shadow: 0 4px 15px rgba(97, 29, 149, 0.3);
+}
+
+.btn-add-cart:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
+/* Badges */
+.stock-status {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-size: 10px;
+  font-weight: 800;
+  z-index: 5;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.out-of-stock { background: #fee2e2; color: #ef4444; }
+.low-stock { background: #fef3c7; color: #d97706; }

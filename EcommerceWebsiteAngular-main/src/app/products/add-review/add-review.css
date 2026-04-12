@@ -1,0 +1,75 @@
+.add-review-container {
+  max-width: 450px; /* Kept very small */
+  padding: 20px;
+  background: var(--light-lilac);
+  border-radius: 16px;
+  margin: 20px auto 0;
+}
+
+.add-review-container h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--dark-purple);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid transparent;
+  background: white;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-purple);
+}
+
+textarea.form-control {
+  min-height: 60px; /* Small height */
+  resize: none;
+}
+
+input[type="number"].form-control {
+  width: 60px;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--dark-purple);
+  color: white;
+  border: none;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:disabled { background: #d1d5db; cursor: not-allowed; }
+
+.success, .error {
+  font-size: 11px;
+  text-align: center;
+  margin-top: 8px;
+  font-weight: 600;
+}

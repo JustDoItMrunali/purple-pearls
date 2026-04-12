@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+:root {
+  /* Colors */
+  --primary-purple: #611d95;
+  --light-lilac: #f5f3ff;
+  --border-purple: #e9d5ff;
+  --text-dark: #1e1b4b;
+  --text-muted: #6b7280;
+  --white: #ffffff;
+  --success-green: #10b981;
+  --error-red: #ef4444;
+  --hover-bright: #7c2d12; 
+
+  /* Layout Constants */
+  --sidebar-width: 260px;
+  --border-radius: 12px;
+  --shadow: 0 8px 20px rgba(97, 29, 149, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Playfair Display', serif;
+}
+
+body {
+  background-color: #fcfaff;
+  color: var(--text-dark);
+}
+
+/* Common Table Styles */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.styled-table thead tr {
+  background-color: var(--primary-purple);
+  color: var(--white);
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 14px 15px;
+  border-bottom: 1px solid var(--border-purple);
+}
+
+/* Common Button Styles */
+.btn-primary {
+  background-color: var(--primary-purple);
+  color: var(--white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
