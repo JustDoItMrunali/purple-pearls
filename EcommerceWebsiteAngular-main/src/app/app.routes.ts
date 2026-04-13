@@ -17,7 +17,7 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
-    canActivate:[authGuard],
+    // canActivate:[authGuard],
     loadChildren: () => import('./auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
@@ -43,6 +43,6 @@ export const routes: Routes = [
   },
   {
     path:'',
-    component:ProductList
+    component:Dashboard
   }
 ];

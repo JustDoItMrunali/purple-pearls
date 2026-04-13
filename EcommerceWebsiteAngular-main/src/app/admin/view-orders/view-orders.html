@@ -10,7 +10,6 @@
           <th>Payment</th>
           <th>Product Name</th>
           <th>Total</th>
-          <th>Details</th>
         </tr>
       </thead>
       <tbody>
@@ -30,11 +29,7 @@
             <td>
               <strong class="price-text">{{ order.totalAmount | currency }}</strong>
             </td>
-            <td>
-              <button [routerLink]="['/admin/user-order', order.order_id]" class="btn-view">
-                View Details
-              </button>
-            </td>
+
           </tr>
         }
       </tbody>

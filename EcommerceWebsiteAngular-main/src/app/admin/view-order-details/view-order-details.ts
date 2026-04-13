@@ -1,48 +1,42 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AdminService } from '../admin-service';
-import { catchError, EMPTY, Observable, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, Observable, switchMap, tap, of } from 'rxjs';
 import { OrderItem } from '../../models/order-item.model';
-import { ActivatedRoute, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { OrderResponse } from '../../models/order.model';
 
 @Component({
   selector: 'app-view-order-details',
+  standalone: true,
   imports: [CommonModule, AsyncPipe],
   templateUrl: './view-order-details.html',
   styleUrl: './view-order-details.css',
 })
 export class ViewOrderDetails implements OnInit {
-  private adminService = inject(AdminService);
-  orderDetail$!: Observable<OrderItem[]>;
   private route = inject(ActivatedRoute);
+  private adminService = inject(AdminService);
+
+  orderDetail$!: Observable<OrderItem[] | null>;
   errorMessage: string | null = null;
+  orderId: number | null = null;
 
   ngOnInit(): void {
     this.orderDetail$ = this.route.paramMap.pipe(
       switchMap((params) => {
-        const id = Number(params.get('orderId'));
+        this.errorMessage = null;
+        this.orderId = Number(params.get('orderId'));
 
-        // Log 1: Monitor the ID coming from the URL
-        console.log('--- Order Detail Request ---');
-        console.log('Extracted Order ID from URL:', id);
-
-        return this.adminService.getOrderDetails(id).pipe(
+        return this.adminService.getOrderDetails(this.orderId).pipe(
           catchError((err) => {
-            // Log 2: Monitor backend errors
-            console.error('API Error details:', err);
-            this.errorMessage = err.error?.message || 'Failed to load order items.';
-            return EMPTY;
+            this.errorMessage = 'Failed to load order items';
+            // CRITICAL: Must return an observable to keep the stream alive
+            return of([]);
           }),
         );
       }),
       tap((items) => {
-        // Log 3: Monitor the final data array
-        console.log('--- Order Detail Response ---');
-        console.log('Items received from Backend:', items);
-
-        if (items && items.length === 0) {
-          console.warn('Warning: The order exists, but the items array is empty.');
+        if (items && items.length === 0 && !this.errorMessage) {
+          this.errorMessage = 'This order has no items';
         }
       }),
     );

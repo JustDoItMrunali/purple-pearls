@@ -1,73 +1,25 @@
-<link
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap"
-  rel="stylesheet"
-/>
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-/>
-
-
-<div class="full-width-wrapper">
-
-  <section class="hero">
-    <div class="hero-text">
-      <h4>Trending Accessories</h4>
-      <h1>
-        MODERN <br />
-        SUNGLASSES
-      </h1>
-      <p>starting at <span>$ 15.00</span></p>
-      <button class="btn-shop">SHOP NOW</button>
-    </div>
-    <div class="hero-img">
-      <img
-        src="https://images.unsplash.com/photo-1511499767350-a447a7273ca3?auto=format&fit=crop&w=800&q=80"
-        alt="Featured Product"
-      />
-    </div>
-  </section>
-
-  <section class="category-section">
-    <div class="cat-card">
-      <div class="cat-icon"><i class="fas fa-female"></i></div>
-      <div class="cat-content">
-        <div class="cat-top">
-          <span class="cat-name">Dress & Frock</span>
-          <span class="cat-count">(53)</span>
-        </div>
-        <a href="#" class="show-all">Show All</a>
+<main class="hero">
+  <div class="carousel">
+    <div class="carousel-inner">
+      <div class="slide">
+        <img src="assets/image1.jpg" alt="Slide 1" />
+      </div>
+      <div class="slide">
+        <img src="assets/image2.jpg" alt="Slide 2" />
+      </div>
+      <div class="slide">
+        <img src="assets/image3.jpg" alt="Slide 3" />
       </div>
     </div>
-    <div class="cat-card">
-      <div class="cat-icon"><i class="fas fa-snowflake"></i></div>
-      <div class="cat-content">
-        <div class="cat-top">
-          <span class="cat-name">Winter Wear</span>
-          <span class="cat-count">(58)</span>
-        </div>
-        <a href="#" class="show-all">Show All</a>
-      </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="text-box">
+      <h1>Welcome to Purple Pearls</h1>
+      <p>Elegant designs for every occasion.</p>
+      <a href="#" class="btn">Shop Now</a>
     </div>
-    <div class="cat-card">
-      <div class="cat-icon"><i class="fas fa-glasses"></i></div>
-      <div class="cat-content">
-        <div class="cat-top">
-          <span class="cat-name">Glasses & Lens</span>
-          <span class="cat-count">(68)</span>
-        </div>
-        <a href="#" class="show-all">Show All</a>
-      </div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon"><i class="fas fa-tshirt"></i></div>
-      <div class="cat-content">
-        <div class="cat-top">
-          <span class="cat-name">Shorts & Jeans</span>
-          <span class="cat-count">(84)</span>
-        </div>
-        <a href="#" class="show-all">Show All</a>
-      </div>
-    </div>
-  </section>
-</div>
+  </div>
+</main>
+
+<app-product-list></app-product-list>

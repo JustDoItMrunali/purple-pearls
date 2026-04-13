@@ -28,53 +28,55 @@ export class ProductService {
 
   private productUrl = 'http://localhost:3000/products';
 
-  //display all products
-  // getProducts(filters: any = {}): Observable<ProductResponse> {
-  //   let params = new HttpParams();
-  //   Object.keys(filters).forEach((key) => {
-  //     if (filters[key]) {
-  //       params = params.append(key, filters[key].toString());
-  //     }
-  //   });
-  //   return this.http.get<ProductResponse>(`${this.productUrl}/get-products`, { params }).pipe(
-  //     tap((response) => {
-  //       this.productSubject.next(response);
-  //     }),
-  //   );
-  // }
+  private currentFilters: any = {};
 
-  // Update your getProducts method to be more flexible
   // getProducts(filters: any = {}): Observable<ProductResponse> {
-  //   let params = new HttpParams();
-
-  //   // Map all filters to HttpParams
-  //   Object.keys(filters).forEach((key) => {
+  //   // This cleans up empty values so you don't send ?typeId=&minPrice=null
+  //   const params = Object.keys(filters).reduce((acc, key) => {
   //     if (filters[key] !== null && filters[key] !== undefined && filters[key] !== '') {
-  //       params = params.append(key, filters[key].toString());
+  //       acc[key] = filters[key];
   //     }
-  //   });
+  //     return acc;
+  //   }, {} as any);
 
   //   return this.http
   //     .get<ProductResponse>(`${this.productUrl}/get-products`, { params })
   //     .pipe(tap((response) => this.productSubject.next(response)));
   // }
 
-  // product-service.ts
-  getProducts(filters: any = {}): Observable<ProductResponse> {
-    // This cleans up empty values so you don't send ?typeId=&minPrice=null
-    const params = Object.keys(filters).reduce((acc, key) => {
-      if (filters[key] !== null && filters[key] !== undefined && filters[key] !== '') {
-        acc[key] = filters[key];
+  getProducts(filters: any = {}, replace = false): Observable<ProductResponse> {
+    this.currentFilters = replace ? { ...filters } : { ...this.currentFilters, ...filters };
+
+    let params = new HttpParams();
+    Object.keys(this.currentFilters).forEach((key) => {
+      const val = this.currentFilters[key];
+      if (val !== null && val !== undefined && val !== '') {
+        params = params.set(key, val);
       }
-      return acc;
-    }, {} as any);
+    });
 
     return this.http
       .get<ProductResponse>(`${this.productUrl}/get-products`, { params })
       .pipe(tap((response) => this.productSubject.next(response)));
   }
 
-  //display single product by detail
+  //orginalss
+  getProduct(filters: any = {}): Observable<ProductResponse> {
+    // Merge new filters with existing ones
+    this.currentFilters = { ...this.currentFilters, ...filters };
+
+    let params = new HttpParams();
+    Object.keys(this.currentFilters).forEach((key) => {
+      if (this.currentFilters[key] !== null && this.currentFilters[key] !== undefined) {
+        params = params.set(key, this.currentFilters[key]);
+      }
+    });
+
+    return this.http
+      .get<ProductResponse>(`${this.productUrl}/get-products`, { params })
+      .pipe(tap((response) => this.productSubject.next(response)));
+  }
+
   getProducByID(product_id: number): Observable<Product> {
     return this.http.get<Product>(`${this.productUrl}/${product_id}`);
   }
@@ -114,5 +116,11 @@ export class ProductService {
 
   getProductSubCategoryById(subCategoryId: number): Observable<SubCategory[]> {
     return this.http.get<SubCategory[]>(`${this.taxanomyUrl}/subcategories/${subCategoryId}`);
+  }
+
+  // product.service.ts
+
+  resetFilters() {
+    this.currentFilters = {};
   }
 }

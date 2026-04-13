@@ -1,13 +1,7 @@
-@if (orderDetail$ | async; as items) {
-  <table>
-    @for (item of items; track item.order_item_id) {
-      <tr>
-        <td>{{ item.productName }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ item.priceAtPurchase | currency }}</td>
-      </tr>
-    }
-  </table>
-} @else {
-  <p>Loading items...</p>
-}
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+<ng-container *ngIf="orderDetail$ | async as items">
+  <ul *ngIf="items.length > 0">
+    <li *ngFor="let item of items">{{ item.productName }}</li>
+  </ul>
+</ng-container>

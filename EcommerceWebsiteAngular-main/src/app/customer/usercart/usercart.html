@@ -2,7 +2,6 @@
   <h2 class="cart-title">Your Cart</h2>
 
   @if (cart$ | async; as cart) {
-
     <div class="cart-grid">
       @for (item of cart.items; track item.cart_item_id) {
         <div class="cart-item-card">
@@ -55,9 +54,8 @@
       class="place-order"
       [routerLink]="['/checkout', cart.cart_id]"
       [queryParams]="{ mode: 'cart' }"
-      (click)="$event.stopPropagation()"
     >
-      <a>Place order</a>
+      Place order
     </button>
   }
 </div>

@@ -3,6 +3,7 @@ import { AdminService } from '../admin-service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { User } from '../../models/user.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-manage-users',
@@ -28,7 +29,10 @@ export class ManageUsers implements OnInit {
   private loadCustomers(): void {
     this.loading = true;
     this.adminService.getCustomers().subscribe({
-      next: () => (this.loading = false),
+      next: () => {
+      
+        this.loading = false;
+      },
       error: (err) => {
         this.loading = false;
         this.errorMessage = err.error.message ?? 'Failed to load customers';

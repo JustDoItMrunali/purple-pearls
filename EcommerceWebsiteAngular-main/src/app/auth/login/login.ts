@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -22,9 +23,14 @@ export class Login {
     this.authService.login(form.value).subscribe({
       next: (res) => {
         const role = res.user.role?.toUpperCase();
-        alert('Login Successfull');
+        // alert('Login Successfull');
+        Swal.fire({
+          title: 'Login successful!!',
+          icon: 'success',
+          draggable: true,
+        });
         if (role === 'ADMIN') {
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/admin/admin-landing']);
         } else if (role === 'USER') {
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
           this.router.navigateByUrl(returnUrl);

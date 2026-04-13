@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
 
 export const ADMIN_ROUTES: Routes = [
-//   {
-//     path: 'admin-dashboard',
-//     loadComponent: () => import('./').then((m) => m.AdminDashboard),
-//   },
+  //   {
+  //     path: 'admin-dashboard',
+  //     loadComponent: () => import('./').then((m) => m.AdminDashboard),
+  //   },
   {
     path: 'addproduct',
     loadComponent: () => import('./manage-products/manage-products').then((m) => m.ManageProducts), // Assuming class name is ManageProducts
@@ -26,6 +26,14 @@ export const ADMIN_ROUTES: Routes = [
     path: 'customer-detail/:userId',
     loadComponent: () =>
       import('./customer-details/customer-details').then((m) => m.CustomerDetails),
+  },
+  {
+    path: 'admin-landing',
+    loadComponent: () => import('./admin-landing/admin-landing').then((m) => m.AdminLanding),
+  },
+  {
+    path:'update-product/:productId',
+    loadComponent:()=> import('./update-product/update-product').then((m)=>m.UpdateProduct)
   },
   {
     path: '',

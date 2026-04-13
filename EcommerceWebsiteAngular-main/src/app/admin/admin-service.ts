@@ -5,6 +5,7 @@ import Product from '../models/product.model';
 import { Order, OrderResponse } from '../models/order.model';
 import { OrderItem } from '../models/order-item.model';
 import { User } from '../models/user.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class AdminService {
   private adminUrl = 'http://localhost:3000/adminProduct';
   private adminUrlCustomer = 'http://localhost:3000/auth';
   private adminCustomerUrl = 'http://localhost:3000/adminCustomer';
-  // private orderUrl = 'http://localhost:3000/order';
+
   private productSubject = new BehaviorSubject<Product | null>(null);
   adminProduct$ = this.productSubject.asObservable();
 
@@ -27,6 +28,7 @@ export class AdminService {
     meta: { total: 0, totalPages: 0, page: 1, limit: 20 },
   });
   order$ = this.orderSubject.asObservable();
+
   // --- Product Management ---
 
   getAllProducts(): Observable<Product> {
@@ -35,18 +37,21 @@ export class AdminService {
       .pipe(tap((product) => this.productSubject.next(product)));
   }
 
-  createProduct(productData: FormData): Observable<Product> {
-    return this.http.post<Product>(`${this.adminUrl}/upload-product`, productData);
+  // createProduct(productData: FormData): Observable<Product> {
+  //   return this.http.post<Product>(`${this.adminUrl}/upload-product`, productData);
+  // }
+  createProduct(formData: FormData): Observable<Product> {
+    return this.http.post<Product>(`${this.adminUrl}/upload-product`, formData);
   }
 
-  updateProduct(productID: number, productData: Product): Observable<Product> {
-    return this.http.patch<Product>(`${this.adminUrl}/update-products/${productID}`, {
+  updateProduct(productId: number, productData: Product): Observable<Product> {
+    return this.http.patch<Product>(`${this.adminUrl}/update-products/${productId}`, {
       productData,
     });
   }
 
-  deleteProduct(productId: number): Observable<Product> {
-    return this.http.delete<Product>(`${this.adminUrl}/products/${productId}`).pipe(
+  deleteProduct(productId: number): Observable<any> {
+    return this.http.delete<any>(`${this.adminUrl}/products/${productId}`).pipe(
       tap((product) => {
         this.productSubject.next(product);
       }),
@@ -79,7 +84,7 @@ export class AdminService {
   // --- Order Management ---
 
   getOrders(): Observable<OrderResponse> {
-    return this.http.get<OrderResponse>(`${this.adminOrderUrl}/orders`).pipe(
+    return this.http.get<OrderResponse>(`${this.adminCustomerUrl}/orders`).pipe(
       tap((response) => {
         console.log('Response with Meta:', response);
         this.orderSubject.next(response);
@@ -87,10 +92,11 @@ export class AdminService {
     );
   }
 
-  private adminOrderUrl = 'http://localhost:3000/adminCustomer';
+  // private adminOrderUrl = 'http://localhost:3000/adminCustomer';
+
+  // --- Order Management ---
 
   getOrderDetails(orderId: number): Observable<OrderItem[]> {
-    // This results in: http://localhost:3000/adminCustomer/orders/21
-    return this.http.get<OrderItem[]>(`${this.adminOrderUrl}/orders/${orderId}`);
+    return this.http.get<OrderItem[]>(`${this.adminCustomerUrl}/orders/${orderId}`);
   }
 }

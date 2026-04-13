@@ -17,4 +17,8 @@ export const AUTH_ROUTES: Routes = [
     path: 'reset-password',
     loadComponent: () => import('./reset-password/reset-password').then((m) => m.ResetPassword),
   },
+  {
+    path: 'profile',
+    loadComponent: () => import('./profile/profile').then((m) => m.Profile),
+  },
 ];

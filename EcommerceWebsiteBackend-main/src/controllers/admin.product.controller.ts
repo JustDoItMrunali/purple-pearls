@@ -41,8 +41,13 @@ export class AdminProductController {
 
   static async createProduct(req: Request, res: Response, next: NextFunction) {
     try {
+      if (!req.body) {
+        return res
+          .status(400)
+          .json({ error: "Request body is undefined. Check middleware." });
+      }
+
       const { name, description, price, stock, subCategoryId } = req.body;
-      const imageFile = req.file;
       if (!name || !price || !stock || !subCategoryId) {
         return res
           .status(400)
@@ -76,7 +81,6 @@ export class AdminProductController {
         stock: stockNum,
         subCategory,
         isActive: true,
-        imagePath: imageFile ? imageFile.path.replace(/\\/g, "/") : null,
       });
 
       await productRepo.save(product);
@@ -124,7 +128,7 @@ export class AdminProductController {
 
       const { name, description, price, stock, subCategoryId, isActive } =
         req.body;
-        const imageFile = req.file;
+      const imageFile = req.file;
 
       if (name !== undefined) product.name = name.trim();
       if (description !== undefined) product.description = description.trim();
@@ -162,9 +166,9 @@ export class AdminProductController {
         product.subCategory = subCategory;
       }
       if (imageFile) {
-  // Logic to delete the old file from disk could go here if desired
-  product.imagePath = imageFile.path.replace(/\\/g, "/");
-}
+        // Logic to delete the old file from disk could go here if desired
+        product.imagePath = imageFile.path.replace(/\\/g, "/");
+      }
       await productRepo.save(product);
       return res.status(200).json({ message: "Product updated", product });
     } catch (err) {

@@ -1,1 +1,29 @@
-<p>profile works!</p>
+<div class="page-wrapper">
+  @if (currentUser$ | async; as user) {
+    <div class="simple-profile-card">
+      <div class="user-info">
+        <div class="user-details">
+          <h3>{{ user.name.toLocaleUpperCase() }}</h3>
+          <p class="email">{{ user.email }}</p>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-label">Role</span>
+          <span class="stat-value">{{ user.role }}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Status</span>
+          <span class="stat-value" [class.locked]="user.isLocked">
+            {{ user.isLocked ? 'Locked' : 'Active' }}
+          </span>
+        </div>
+      </div>
+
+      <button class="edit-btn">Edit Profile</button>
+    </div>
+  } @else {
+    <p class="empty-state">No user profile found.</p>
+  }
+</div>

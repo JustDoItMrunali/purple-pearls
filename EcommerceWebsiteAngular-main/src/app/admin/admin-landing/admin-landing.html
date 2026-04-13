@@ -1,0 +1,31 @@
+<div class="admin-container">
+  <header>
+    <h1>Admin Dashboard</h1>
+    <p>Overview of your E-commerce performance</p>
+  </header>
+
+  @if (stats$ | async; as stats) {
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="label">Total Products</span>
+        <span class="value">{{ stats.totalProducts }}</span>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Total Orders</span>
+        <span class="value">{{ stats.totalOrders }}</span>
+      </div>
+
+      <div class="stat-card">
+        <span class="label">Total Customers</span>
+        <span class="value">{{ stats.totalCustomers }}</span>
+      </div>
+
+      <div class="stat-card highlight">
+        <span class="label">Active Users</span>
+        <span class="value">{{ stats.activeCustomers }}</span>
+      </div>
+    </div>
+  }
+
+</div>

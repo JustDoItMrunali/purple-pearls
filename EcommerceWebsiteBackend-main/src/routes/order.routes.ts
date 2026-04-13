@@ -18,7 +18,7 @@ OrderRouter.get(
   OrderController.getMyOrderrs,
 );
 OrderRouter.get(
-  "/orders/:orderID",
+  "/orders/:orderId",
   requireAuth,
   requireRole(UserRole.USER),
   OrderController.getOrderDetails,

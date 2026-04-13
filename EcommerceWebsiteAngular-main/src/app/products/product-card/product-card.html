@@ -23,7 +23,11 @@
     <h3 class="product-title">{{ product.name }}</h3>
 
     <p class="product-description">
-      {{ product.description.length > 70 ? (product.description | slice: 0 : 70) + '...' : product.description }}
+      {{
+        product.description.length > 70
+          ? (product.description | slice: 0 : 70) + '...'
+          : product.description
+      }}
     </p>
 
     <div class="pricing-row">
@@ -31,21 +35,38 @@
     </div>
 
     <div class="card-actions">
-      <button
-        class="btn-buy-now"
-        [routerLink]="['/checkout', product.product_id]"
-        (click)="$event.stopPropagation()"
-      >
-        Buy Now
-      </button>
-      
-      <button
-        class="btn-add-cart"
-        [disabled]="product.stock <= 0"
-        (click)="addCart(product.product_id, 1); $event.stopPropagation()"
-      >
-        <i class="fas fa-cart-plus"></i> Add to Cart
-      </button>
+      @if (isAdmin()) {
+        <button
+          class="btn-edit"
+          (click)="$event.stopPropagation()"
+          [routerLink]="['/admin/update-product', product.product_id]"
+        >
+          <i class="fas fa-edit"></i> Edit Product
+        </button>
+
+        <button
+          class="btn-add-cart"
+          (click)="onDelete(product.product_id); $event.stopPropagation()"
+        >
+          <i class="fas fa-trash"></i> Delete Product
+        </button>
+      } @else {
+        <button
+          class="btn-buy-now"
+          [routerLink]="['/checkout', product.product_id]"
+          (click)="$event.stopPropagation()"
+        >
+          Buy Now
+        </button>
+
+        <button
+          class="btn-add-cart"
+          [disabled]="product.stock <= 0"
+          (click)="addCart(product.product_id, 1); $event.stopPropagation()"
+        >
+          <i class="fas fa-cart-plus"></i> Add to Cart
+        </button>
+      }
     </div>
   </div>
 </div>

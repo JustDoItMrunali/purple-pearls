@@ -106,24 +106,51 @@ export class AdminCustomerController {
     }
   }
 
+  // static async getOrderDetails(
+  //   req: Request,
+  //   res: Response,
+  //   next: NextFunction,
+  // ) {
+  //   console.log("DEBUG: All Params:", req.params);
+  //   try {
+  //     const orderId = Number(req.params.orderId);
+  //     if (isNaN(orderId))
+  //       return res.status(400).json({ error: "Invalid orderId" });
+
+  //     const order = await AppDataSource.getRepository(Order).findOne({
+  //       where: { order_id: orderId },
+  //       relations: { user: true, items: { product: true } },
+  //     });
+  //     if (!order) return res.status(404).json({ error: "Order not found" });
+  //     return res.status(200).json(order.items);
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // }
+
   static async getOrderDetails(
     req: Request,
     res: Response,
     next: NextFunction,
   ) {
-    console.log("DEBUG: All Params:", req.params);
     try {
       const orderId = Number(req.params.orderId);
+      console.log("hello");
+      console.log("Backend received ID:", req.params.orderId);
+
       if (isNaN(orderId))
         return res.status(400).json({ error: "Invalid orderId" });
 
       const order = await AppDataSource.getRepository(Order).findOne({
         where: { order_id: orderId },
-        relations: { user: true, items: { product: true } },
+        relations: { items: { product: true }, user: true },
       });
+
       if (!order) return res.status(404).json({ error: "Order not found" });
-      return res.status(200).json(order.items);
+
+      return res.status(200).json(order);
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }

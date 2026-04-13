@@ -10,11 +10,12 @@ const AdminCustomerRouter = Router({ mergeParams: true });
 AdminCustomerRouter.use(requireAuth);
 AdminCustomerRouter.use(requireRole(UserRole.ADMIN));
 
-AdminCustomerRouter.get("/orders", AdminCustomerController.getAllOrders);
 AdminCustomerRouter.get(
   "/orders/:orderId",
   AdminCustomerController.getOrderDetails,
 );
+AdminCustomerRouter.get("/orders", AdminCustomerController.getAllOrders);
+
 AdminCustomerRouter.get("/customers", AdminCustomerController.getAllCustomer);
 AdminCustomerRouter.get(
   "/customers/:userId",

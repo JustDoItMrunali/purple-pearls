@@ -1,11 +1,14 @@
 <div class="admin-layout">
   <aside class="sidebar">
-    <div class="sidebar-header">
-      <h2>⚡ Admin Menu</h2>
-    </div>
+
 
     <nav class="nav-links">
-      <a routerLink="/admin/admin-dashboard" routerLinkActive="active" class="nav-item">
+      <a
+        routerLink="/admin/admin-landing"
+        routerLinkActive="active"
+        class="nav-item"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <span class="emoji">📊</span> Dashboard
       </a>
 
