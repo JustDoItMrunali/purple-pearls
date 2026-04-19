@@ -6,12 +6,8 @@ import { sessionStore } from "../utils/sessionStorage";
 import { signToken, COOKIE_NAME } from "../utils/jwt";
 import { v4 as uuidv4 } from "uuid";
 import { error } from "node:console";
+import { AppError } from "../utils/AppError";
 
-// declare module "express-session" {
-//     interface SessionData {
-//         user: { id: string; email: string }
-//     }
-// }
 interface ResetEntry {
   code: string;
   expiresAt: number;
@@ -25,16 +21,15 @@ export class AuthController {
     try {
       const { email, password, name } = req.body;
       if (!email || !password || !name) {
-        return res
-          .status(400)
-          .json({ error: "email, password and name are required" });
+        // return res;
+        return next(new AppError("Email ,name, password are required", 400));
       }
       const authRepo = AppDataSource.getRepository(User);
       const existUser = await authRepo.findOneBy({
         email: email.toLowerCase(),
       });
       if (existUser) {
-        return res.status(409).json({ error: "Email already exists" });
+        return next(new AppError("Email already exists", 400));
       }
       const user = authRepo.create({
         email: email.toLowerCase(),
@@ -56,8 +51,7 @@ export class AuthController {
     try {
       const { email, password } = req.body;
       if (!email || !password) {
-        res.status(400).json({ error: "Email and password required" });
-        return;
+        return next(new AppError("Email and password are required", 400));
       }
       const authRepo = AppDataSource.getRepository(User);
       const user = await authRepo
@@ -67,8 +61,7 @@ export class AuthController {
         .getOne();
 
       if (!user || !(await verifyPassword(password, user.passwordHash))) {
-        res.status(401).json({ error: "Invalid credentials" });
-        return;
+        return next(new AppError("Invalid credentials", 401));
       }
 
       const jti = uuidv4();
@@ -87,7 +80,6 @@ export class AuthController {
       });
       res.cookie(COOKIE_NAME, token, {
         httpOnly: true,
-        // sameSite: 'strict',
         sameSite: "lax",
         secure: process.env.NODE_ENV === "production",
         maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -105,6 +97,39 @@ export class AuthController {
         return res.status(401).json({ error: "No user found" });
       }
       return res.status(200).json(req.user);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async editProfile(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { name, email, address, phone } = req.body;
+      const userId = Number(req.params.user_id);
+      if (!req.user) {
+        return res.status(404).json({ error: "Unauthorized user" });
+      }
+
+      if (!name || name.trim() === "") {
+        return res.status(400).json({ message: "Name is required" });
+      }
+
+      const userRepo = AppDataSource.getRepository(User);
+
+      const user = await userRepo.findOneBy({ user_id: userId });
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      user.name = name;
+      user.address = address;
+      user.phone = phone;
+      user.email = email;
+
+      const updatedUser = await userRepo.save(user);
+
+      return res.status(200).json({ message: "Updated profile",user:updatedUser });
     } catch (err) {
       next(err);
     }

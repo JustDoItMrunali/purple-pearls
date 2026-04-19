@@ -32,8 +32,12 @@ export const ADMIN_ROUTES: Routes = [
     loadComponent: () => import('./admin-landing/admin-landing').then((m) => m.AdminLanding),
   },
   {
-    path:'update-product/:productId',
-    loadComponent:()=> import('./update-product/update-product').then((m)=>m.UpdateProduct)
+    path: 'update-product/:productId',
+    loadComponent: () => import('./update-product/update-product').then((m) => m.UpdateProduct),
+  },
+  {
+    path: 'products',
+    loadComponent: () => import('../products/product-list/product-list').then((m) => m.ProductList),
   },
   {
     path: '',

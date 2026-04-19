@@ -9,8 +9,7 @@ import { OrderItem } from "./entities/OrderItem";
 import { Cart } from "./entities/Cart";
 import { CartItem } from "./entities/CartItem";
 import { Review } from "./entities/Review";
-import { Wishlist } from "./entities/Wishlist";
-import { Complaint } from "./entities/Complaint";
+
 export const AppDataSource = new DataSource({
   type: "better-sqlite3",
   database: "./dev.sqlite",

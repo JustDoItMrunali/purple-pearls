@@ -11,7 +11,6 @@ import {
 import { SubCategory } from "./SubCategory";
 import { CartItem } from "./CartItem";
 import { OrderItem } from "./OrderItem";
-import { Wishlist } from "./Wishlist";
 
 @Entity("product")
 export class Product {
@@ -43,9 +42,6 @@ export class Product {
 
   @UpdateDateColumn()
   updatedAt!: Date;
-
-  @OneToMany(() => Wishlist, (wishlist) => wishlist.product)
-  wishlists!: Wishlist[];
 
   @ManyToOne(() => SubCategory, (subCategory) => subCategory.products, {
     nullable: false,

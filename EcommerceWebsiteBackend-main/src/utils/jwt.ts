@@ -11,9 +11,6 @@ function signToken(payload: Omit<JwtPayload, "iat" | "exp">): string {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: "12h" });
 }
 
-// function verifyToken(token: string): JwtPayload | string {
-//     return jwt.verify(token, JWT_SECRET) as JwtPayload;
-// }
 function verifyToken(token: string): JwtPayload {
   const decoded = jwt.verify(token, JWT_SECRET) as unknown as JwtPayload;
   if (typeof decoded === "string" || !decoded.jti || !decoded.email) {

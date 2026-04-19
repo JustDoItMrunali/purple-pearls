@@ -109,14 +109,14 @@ export class OrderController {
         return res.status(404).json({ error: "Order doesnt exists" });
       }
 
-      if (
-        order.status !== OrderStatus.CANCELLED &&
-        order.status !== OrderStatus.PENDING
-      ) {
-        return res.status(400).json({
-          error: "Cannot cancel order once it is Shipped or Delivered",
-        });
-      }
+      // if (
+      //   order.status !== OrderStatus.PENDING &&
+      //   order.status !== OrderStatus.CONFIRMED
+      // ) {
+      //   return res.status(400).json({
+      //     error: "Cannot cancel order once it is Shipped or Delivered",
+      //   });
+      // }
 
       await AppDataSource.transaction(async (manager) => {
         for (const item of order.items) {

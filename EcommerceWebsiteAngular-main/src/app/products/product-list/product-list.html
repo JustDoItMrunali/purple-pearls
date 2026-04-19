@@ -1,138 +1,71 @@
-<!-- <div class="container">
+<div class="container">
   <div class="products">
     <div class="search-section">
       <div class="search-wrapper">
         <input
-          #searchInput
           type="text"
           placeholder="Search for products..."
-          (keyup.enter)="onSearch(searchInput.value)"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchInput(searchTerm)"
+          (keyup.enter)="onSearchEnter()"
         />
-        <button (click)="onSearch(searchInput.value)" class="search-btn">🔍</button>
+        <button (click)="onSearchEnter()" class="search-btn">🔍</button>
       </div>
+
+      @if (selectedTypeId || searchTerm) {
+        <div class="active-filters">
+          @if (searchTerm) {
+            <span class="filter-chip">🔍 "{{ searchTerm }}"</span>
+          }
+          @if (selectedTypeName) {
+            <span class="filter-chip">🏷️ {{ selectedTypeName }}</span>
+          }
+          <button class="clear-btn" (click)="clearFilters()">✕ Clear all</button>
+        </div>
+      }
     </div>
-    @if (productType$ | async; as productTypes) {
-      
+
+    @if (productTypes$ | async; as productTypes) {
       <div class="productType-grid">
-        @for (productType of productTypes; track productType.type_id) {
-          <div class="type-item">
-            <p>{{ productType.name }}</p>
-            @if (!$last) {
-              <span class="arrow">→</span>
-            }
-          </div>
+        @for (type of productTypes; track type.type_id) {
+          <button
+            class="type-chip"
+            [class.active-type]="selectedTypeId === type.type_id"
+            (click)="onTypeClick(type.type_id)"
+          >
+            {{ type.name }}
+          </button>
         }
       </div>
     }
-    
+
     @if (product$ | async; as response) {
       <div class="product-grid">
         @for (product of response.data; track product.product_id) {
           <app-product-card [product]="product"></app-product-card>
         } @empty {
-          <div class="empty">
-            <p>No products found matching your criteria.</p>
+          <div class="empty-state">
+            <p>😕 No products found in this category.</p>
+            <button class="clear-btn" (click)="clearFilters()">Clear filters</button>
           </div>
         }
       </div>
 
-      <div class="pagination">
-        @for (page of response.pages; track page) {
-          <button
-            class="round-button"
-            (click)="goToPage(page)"
-            [class.active]="page === response.meta.page"
-          >
-            {{ page }}
-          </button>
-        }
-      </div>
-    } @else {
-      <div class="loading">
-        <p>Loading products...</p>
-      </div>
-    }
-  </div>
-</div> -->
-
-<div class="container">
-  <div class="products">
-    <!-- Search -->
-    <div class="search-section">
-      <div class="search-wrapper">
-        <input
-          #searchInput
-          type="text"
-          placeholder="Search for products..."
-          (keyup.enter)="onSearch(searchInput.value)"
-        />
-        <button (click)="onSearch(searchInput.value)" class="search-btn">🔍</button>
-      </div>
-    </div>
-
-    <!-- Product Types -->
-    @if (productType$ | async; as productTypes) {
-      <div class="productType-grid">
-        @for (productType of productTypes; track productType.type_id) {
-          <div
-            class="type-item"
-            [class.active]="selectedTypeId === productType.type_id"
-            (click)="onTypeClick(productType.type_id)"
-          >
-            <p>{{ productType.name }}</p>
-            @if (!$last) {
-              <span class="arrow">→</span>
-            }
-          </div>
-        }
-      </div>
-    }
-
-    <!-- Subcategories (shown after a type is clicked) -->
-    @if (subCategories$ | async; as subCategories) {
-      @if (subCategories.length > 0) {
-        <div class="subcategory-grid">
-          @for (sub of subCategories; track sub.sub_category_id) {
+      @if (response.meta.totalPages > 1) {
+        <div class="pagination">
+          @for (page of response.pages; track page) {
             <button
-              class="sub-chip"
-              [class.active]="selectedSubCategoryId === sub.sub_category_id"
-              (click)="onSubCategoryClick(sub.sub_category_id)"
+              class="round-button"
+              (click)="goToPage(page)"
+              [class.active]="page === response.meta.page"
             >
-              {{ sub.name }}
+              {{ page }}
             </button>
           }
         </div>
       }
-    }
-
-    <!-- Products -->
-    @if (product$ | async; as response) {
-      <div class="product-grid">
-        @for (product of response.data; track product.product_id) {
-          <app-product-card [product]="product"></app-product-card>
-        } @empty {
-          <div class="empty">
-            <p>No products found matching your criteria.</p>
-          </div>
-        }
-      </div>
-
-      <!-- Pagination -->
-      <div class="pagination">
-        @for (page of response.pages; track page) {
-          <button
-            class="round-button"
-            (click)="goToPage(page)"
-            [class.active]="page === response.meta.page"
-          >
-            {{ page }}
-          </button>
-        }
-      </div>
     } @else {
-      <div class="loading">
-        <p>Loading products...</p>
-      </div>
+      <div class="loading"><p>Loading products...</p></div>
     }
   </div>
 </div>

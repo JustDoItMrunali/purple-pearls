@@ -5,7 +5,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Wishlist } from "./Wishlist";
 
 export enum UserRole {
   USER = "user",
@@ -33,9 +32,6 @@ export class User {
 
   @Column({ default: false })
   isLocked!: boolean;
-
-  @OneToMany(() => Wishlist, (wishlist) => wishlist.user)
-  wishlists!: Wishlist[];
 
   @Column({ nullable: true })
   address!: string;

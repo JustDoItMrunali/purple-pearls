@@ -29,7 +29,6 @@ export class ViewOrderDetails implements OnInit {
         return this.adminService.getOrderDetails(this.orderId).pipe(
           catchError((err) => {
             this.errorMessage = 'Failed to load order items';
-            // CRITICAL: Must return an observable to keep the stream alive
             return of([]);
           }),
         );

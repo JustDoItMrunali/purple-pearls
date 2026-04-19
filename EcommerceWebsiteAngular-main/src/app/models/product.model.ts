@@ -6,7 +6,7 @@ export default interface Product {
   description: string;
   price: number;
   stock: number;
-  imagePath: string | null;
+  imagePath: string ;
   isActive: boolean;
   createdAt: Date | string; 
   updatedAt: Date | string;

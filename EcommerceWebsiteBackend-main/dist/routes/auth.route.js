@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const authenticate_controller_1 = require("../controllers/authenticate_controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const User_1 = require("../entities/User");
+const AuthRouter = (0, express_1.Router)();
+AuthRouter.post("/register", authenticate_controller_1.AuthController.register);
+AuthRouter.post("/login", authenticate_controller_1.AuthController.login);
+AuthRouter.post("/logout", auth_middleware_1.requireAuth, authenticate_controller_1.AuthController.logout);
+AuthRouter.post("/resetPassword", authenticate_controller_1.AuthController.resetPassword);
+AuthRouter.post("/forgotPassword", authenticate_controller_1.AuthController.forgotPassword);
+AuthRouter.patch("/users/:userId/lock", auth_middleware_1.requireAuth, (0, auth_middleware_1.requireRole)(User_1.UserRole.ADMIN), authenticate_controller_1.AuthController.lockAccount);
+AuthRouter.patch("/users/:userId/unlock", auth_middleware_1.requireAuth, (0, auth_middleware_1.requireRole)(User_1.UserRole.ADMIN), authenticate_controller_1.AuthController.unlockAccount);
+AuthRouter.patch("/users/:userId/editprofile", auth_middleware_1.requireAuth, authenticate_controller_1.AuthController.editProfile);
+AuthRouter.get("/get-users", auth_middleware_1.requireAuth, authenticate_controller_1.AuthController.getUser);
+exports.default = AuthRouter;

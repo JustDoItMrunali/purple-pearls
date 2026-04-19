@@ -37,17 +37,16 @@ export class AdminService {
       .pipe(tap((product) => this.productSubject.next(product)));
   }
 
-  // createProduct(productData: FormData): Observable<Product> {
-  //   return this.http.post<Product>(`${this.adminUrl}/upload-product`, productData);
-  // }
-  createProduct(formData: FormData): Observable<Product> {
-    return this.http.post<Product>(`${this.adminUrl}/upload-product`, formData);
+  getProductById(productId: number): Observable<any> {
+    return this.http.get<any>(`http://localhost:3000/products/${productId}`);
   }
 
-  updateProduct(productId: number, productData: Product): Observable<Product> {
-    return this.http.patch<Product>(`${this.adminUrl}/update-products/${productId}`, {
-      productData,
-    });
+  createProduct(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.adminUrl}/upload-product`, formData);
+  }
+
+  updateProduct(productId: number, formData: FormData): Observable<any> {
+    return this.http.patch<any>(`${this.adminUrl}/update-products/${productId}`, formData);
   }
 
   deleteProduct(productId: number): Observable<any> {

@@ -6,7 +6,7 @@ import { Sidebar } from '../sidebar/sidebar';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [RouterModule,Sidebar,RouterOutlet],
+  imports: [RouterModule,Sidebar],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.css',
 })

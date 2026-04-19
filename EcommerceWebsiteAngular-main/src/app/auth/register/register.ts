@@ -6,17 +6,20 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, FormsModule,RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
 export class Register {
   private authService = inject(AuthService);
   private router = inject(Router);
-
+  showPassword = false;
+  errorMessage: string | null = null;
+  
   onRegister(form: NgForm) {
     const { name, email, password, confirmPassword } = form.value;
     if (form.invalid) {
+      Object.values(form.controls).forEach((c) => c.markAsTouched());
       return;
     }
     if (password != confirmPassword) {
@@ -29,7 +32,9 @@ export class Register {
         alert('Registered successfully');
         this.router.navigateByUrl('/auth/login');
       },
-      error: (err) => console.log(err),
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'An error occurred during registration.';
+      },
     });
   }
 }

@@ -33,8 +33,8 @@ export class OrderService {
     return this.http.get<Order>(`${this.orderUrl}/orders/${orderId}`);
   }
 
-  cancelOrder(orderId: number): Observable<Order[]> {
-    return this.http.delete<Order[]>(`${this.orderUrl}/delete_order/${orderId}`);
+  cancelOrder(orderId: number): Observable<Order> {
+    return this.http.delete<Order>(`${this.orderUrl}/delete_order/${orderId}`);
   }
 
   placeSingleOrder(

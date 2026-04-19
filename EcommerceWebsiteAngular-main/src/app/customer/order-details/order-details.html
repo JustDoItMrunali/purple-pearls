@@ -1,0 +1,65 @@
+@if (errorMessage) {
+  <div class="error-banner">
+    <span class="error-icon">⚠️</span>
+    {{ errorMessage }}
+  </div>
+} @else if (orderDetail$ | async; as order) {
+  <div class="detail-container">
+    <!-- Header -->
+    <div class="detail-header">
+      <div class="header-left">
+        <h2>
+          Order 
+        </h2>
+        <p class="placed-date">Placed on {{ order.placedAt | date: 'longDate' }}</p>
+      </div>
+      <span class="status-badge" [attr.data-status]="order.status">
+        {{ order.status | titlecase }}
+      </span>
+    </div>
+
+    <!-- Payment Info -->
+    <div class="info-card">
+      <h3>Payment</h3>
+      <p>{{ order.paymentMethod.replace('_', ' ') | titlecase }}</p>
+    </div>
+
+    <!-- Items Table -->
+    <div class="items-card">
+      <h3>Items Ordered</h3>
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Unit Price</th>
+            <th>Qty</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of order.items; track item.order_item_id) {
+            <tr>
+              <td class="product-name">{{ item.productName }}</td>
+              <td>{{ item.priceAtPurchase | currency: 'INR' }}</td>
+              <td>{{ item.quantity }}</td>
+              <td class="subtotal">
+                {{ item.priceAtPurchase * item.quantity | currency: 'INR' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Order Total -->
+    <div class="total-row">
+      <span>Order Total</span>
+      <span class="total-amount">{{ order.totalAmount | currency: 'INR' }}</span>
+    </div>
+  </div>
+} @else {
+  <div class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading order details…</p>
+  </div>
+}

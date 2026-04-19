@@ -7,7 +7,7 @@ import { OrderResponse } from '../../models/order.model';
 
 @Component({
   selector: 'app-view-orders',
-  imports: [CommonModule, AsyncPipe, RouterLink],
+  imports: [CommonModule, AsyncPipe],
   templateUrl: './view-orders.html',
   styleUrl: './view-orders.css',
 })

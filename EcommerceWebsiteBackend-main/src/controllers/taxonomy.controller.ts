@@ -18,6 +18,21 @@ export class TaxonomyController {
     }
   }
 
+  static async getSubCategories(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const subCategory = await AppDataSource.getRepository(SubCategory).find({
+        order: { name: "ASC" },
+      });
+      return res.status(200).json(subCategory);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   //Returns all category of single product type
   static async getCategoriesType(
     req: Request,
@@ -45,87 +60,4 @@ export class TaxonomyController {
     }
   }
 
-  //returns all subcategory under categoroes
-  static async getSubCategoriesType(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const categoryId = Number(req.params.categoryId);
-
-      if (isNaN(categoryId))
-        return res.status(400).json({ error: "Imvalid categoryId" });
-
-      const categoryType = await AppDataSource.getRepository(Category).findOne({
-        where: { category_id: categoryId },
-        relations: ["productType"],
-      });
-      if (!categoryType)
-        return res.status(404).json({ error: "Category not found" });
-
-      const subCategories = await AppDataSource.getRepository(SubCategory).find(
-        {
-          where: { category: { category_id: categoryId } },
-          order: { name: "ASC" },
-        },
-      );
-      return res.status(200).json({
-        type: categoryType.productType.name,
-        category: categoryType.name,
-        subCategories,
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  // Returns a single category by id
-  static async getCategoryById(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const categoryId = Number(req.params.categoryId);
-      if (isNaN(categoryId))
-        return res.status(400).json({ error: "Invalid categoryId" });
-
-      const category = await AppDataSource.getRepository(Category).findOne({
-        where: { category_id: categoryId },
-        relations: { productType: true },
-      });
-      if (!category)
-        return res.status(404).json({ error: "Category not found" });
-
-      return res.status(200).json(category);
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  static async getSubCategoryById(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const subCategoryId = Number(req.params.subCategoryId);
-      if (isNaN(subCategoryId))
-        return res.status(400).json({ error: "Invalid subCategoryId" });
-
-      const subCategory = await AppDataSource.getRepository(
-        SubCategory,
-      ).findOne({
-        where: { sub_category_id: subCategoryId },
-        relations: { category: { productType: true } },
-      });
-      if (!subCategory)
-        return res.status(404).json({ error: "SubCategory not found" });
-
-      return res.status(200).json(subCategory);
-    } catch (err) {
-      next(err);
-    }
-  }
 }

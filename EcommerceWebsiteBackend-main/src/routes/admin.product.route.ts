@@ -10,12 +10,12 @@ AdminProductRouter.use(requireRole(UserRole.ADMIN));
 AdminProductRouter.get("/get-products", AdminProductController.getAllProducts);
 AdminProductRouter.post(
   "/upload-product",
-  upload.single("imagePath"),
+  upload.single("image"),
   AdminProductController.createProduct,
 );
 AdminProductRouter.patch(
   "/update-products/:productID",
-  upload.single("imagePath"),
+  upload.single("image"),
   AdminProductController.updateProduct,
 );
 

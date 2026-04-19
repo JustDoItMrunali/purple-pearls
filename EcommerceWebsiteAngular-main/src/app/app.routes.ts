@@ -1,48 +1,32 @@
 import { Routes } from '@angular/router';
-import { Dashboard } from './admin/dashboard/dashboard';
-import { ProductDetail } from './products/product-detail/product-detail';
-import { ProductList } from './products/product-list/product-list';
-import { UserCart } from './customer/usercart/usercart';
-import { Checkout } from './customer/checkout/checkout';
-import { OrderHistory } from './customer/order-history/order-history';
 import { AdminDashboard } from './admin/admin-dashboard/admin-dashboard';
-import { adminGuard } from './auth/guard/admin/admin-guard';
-import { authGuard } from './auth/guard/auth/auth-guard';
+import { Dashboard } from './shared/dashboard_shared/dashboard';
 
 export const routes: Routes = [
   {
     path: 'admin',
-    component:AdminDashboard,
+    component: AdminDashboard,
     loadChildren: () => import('./admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },
   {
     path: 'auth',
-    // canActivate:[authGuard],
     loadChildren: () => import('./auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('./admin/dashboard/dashboard').then((m) => Dashboard),
+    component: Dashboard,
   },
-  { path: 'products/:product_id', component: ProductDetail },
   {
     path: 'products',
-    component: ProductList,
+    loadChildren: () => import('./products/product.route').then((m) => m.productRoutes),
   },
   {
-    path: 'cart',
-    component: UserCart,
+    path: 'customer',
+    loadChildren: () => import('./customer/customer.route').then((m) => m.userRoutes),
   },
   {
-    path: 'checkout/:id',
-    component: Checkout,
+    path: '**',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
   },
-  {
-    path: 'order',
-    component: OrderHistory,
-  },
-  {
-    path:'',
-    component:Dashboard
-  }
 ];

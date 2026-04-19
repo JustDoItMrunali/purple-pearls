@@ -17,9 +17,20 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  //backend errors
+  errorMessage: string | null = null;
+  showPassword = false;
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
 
   login(form: NgForm) {
-    if (form.invalid) return;
+    if (form.invalid) {
+      Object.values(form.controls).forEach((control) => control.markAsTouched());
+      return;
+    }
+    this.errorMessage = null;
     this.authService.login(form.value).subscribe({
       next: (res) => {
         const role = res.user.role?.toUpperCase();
@@ -39,7 +50,7 @@ export class Login {
         }
       },
       error: (err) => {
-        console.log(err.error.message);
+        this.errorMessage = err.error?.message || 'An unexpected error occurred.';
       },
     });
   }

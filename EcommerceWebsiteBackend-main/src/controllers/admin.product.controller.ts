@@ -5,6 +5,13 @@ import { error } from "node:console";
 import { SubCategory } from "../entities/SubCategory";
 
 export class AdminProductController {
+  /**
+   * Get all products
+   * @param req 
+   * @param res 
+   * @param next 
+   * @returns 
+   */
   static async getAllProducts(req: Request, res: Response, next: NextFunction) {
     try {
       const { page = "1", limit = "20" } = req.query;
@@ -39,31 +46,44 @@ export class AdminProductController {
     }
   }
 
+  /**
+   * Create products
+   * @param req 
+   * @param res 
+   * @param next 
+   * @returns 
+   */
   static async createProduct(req: Request, res: Response, next: NextFunction) {
     try {
+      console.log(">>> HIT createProduct");
+      console.log(">>> body:", req.body);
+      console.log(">>> file:", req.file);
       if (!req.body) {
-        return res
-          .status(400)
-          .json({ error: "Request body is undefined. Check middleware." });
+        return res.status(400).json({
+          error:
+            "Request body missing. ",
+        });
       }
 
-      const { name, description, price, stock, subCategoryId } = req.body;
+      console.log("Body:", req.body);
+      console.log("File:", req.file);
+      console.log("Content-Type:", req.headers["content-type"]);
+      const { name, description, price, stock, subCategoryId } = req.body ?? {};
+
       if (!name || !price || !stock || !subCategoryId) {
         return res
           .status(400)
-          .json({ error: "name, price and subCategoryId are required" });
+          .json({ error: "name, price, stock and subCategoryId are required" });
       }
+      if (!req.file) console.log("File not found");
 
-      const priceNum = parseFloat(price);
-      const stockNum = parseInt(stock ?? "0");
+      const priceNum = Number(price);
+      const stockNum = Number(stock ?? "0");
 
-      if (isNaN(priceNum) || priceNum < 0) {
-        return res.status(400).json({ error: "Price number isnt valid" });
-      }
-
-      if (isNaN(stockNum) || stockNum < 0) {
-        return res.status(400).json({ error: "Stock number isnt valid" });
-      }
+      if (isNaN(priceNum) || priceNum < 0)
+        return res.status(400).json({ error: "Price is not valid" });
+      if (isNaN(stockNum) || stockNum < 0)
+        return res.status(400).json({ error: "Stock is not valid" });
 
       const subCategory = await AppDataSource.getRepository(
         SubCategory,
@@ -73,7 +93,8 @@ export class AdminProductController {
       if (!subCategory)
         return res.status(404).json({ error: "SubCategory not found" });
 
-      const productRepo = await AppDataSource.getRepository(Product);
+      const imagePath = req.file ? req.file.filename : null;
+      const productRepo = AppDataSource.getRepository(Product);
       const product = productRepo.create({
         name: name.trim(),
         description: description?.trim() ?? null,
@@ -81,6 +102,7 @@ export class AdminProductController {
         stock: stockNum,
         subCategory,
         isActive: true,
+        imagePath,
       });
 
       await productRepo.save(product);
@@ -91,7 +113,6 @@ export class AdminProductController {
       next(err);
     }
   }
-
   static async deleteProduct(req: Request, res: Response, next: NextFunction) {
     try {
       const productId = Number(req.params.productId);
@@ -166,7 +187,6 @@ export class AdminProductController {
         product.subCategory = subCategory;
       }
       if (imageFile) {
-        // Logic to delete the old file from disk could go here if desired
         product.imagePath = imageFile.path.replace(/\\/g, "/");
       }
       await productRepo.save(product);

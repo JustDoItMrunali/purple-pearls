@@ -12,7 +12,7 @@ export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.userSubject.asObservable();
   constructor() {
-    this.getUser();
+    // this.getUser();
   }
   private http = inject(HttpClient);
 
@@ -62,4 +62,5 @@ export class AuthService {
   resetPassword(resetForm: ResetPassword) {
     return this.http.post(`${this.baseUrl}/resetPassword`, resetForm);
   }
+
 }

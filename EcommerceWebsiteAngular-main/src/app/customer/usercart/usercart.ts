@@ -10,7 +10,7 @@ import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-usercart',
-  imports: [CommonModule, AsyncPipe, DatePipe, RouterLink],
+  imports: [CommonModule, AsyncPipe, RouterLink],
   templateUrl: './usercart.html',
   styleUrl: './usercart.css',
 })

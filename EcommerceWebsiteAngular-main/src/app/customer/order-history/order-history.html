@@ -22,7 +22,7 @@
               @for (item of order.items; track item.order_item_id) {
                 <li>
                   <span class="item-name">{{ item.productName }}</span>
-                  <span class="item-qty">x{{ item.quantity }}</span>
+                  <span class="item-qty">Quantity: {{ item.quantity }}</span>
                 </li>
               }
             </ul>
@@ -37,6 +37,13 @@
               <small>Total Amount</small>
               <p class="amount">{{ order.totalAmount | currency: 'INR' }}</p>
             </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-details" (click)="$event.stopPropagation()" [routerLink]="['/customer/orders',order.order_id]">View Details</button>
+            @if (order.status === 'pending' || order.status === 'confirmed') {
+              <button class="btn-cancel" (click)="cancelOrder(order.order_id)">Cancel Order</button>
+            }
           </div>
         </div>
       } @empty {

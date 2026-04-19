@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const User_1 = require("../entities/User");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const admin_customer_controller_1 = require("../controllers/admin.customer.controller");
+// const AdminCustomerRouter = Router();
+const AdminCustomerRouter = (0, express_1.Router)({ mergeParams: true });
+AdminCustomerRouter.use(auth_middleware_1.requireAuth);
+AdminCustomerRouter.use((0, auth_middleware_1.requireRole)(User_1.UserRole.ADMIN));
+AdminCustomerRouter.get("/orders/:orderId", admin_customer_controller_1.AdminCustomerController.getOrderDetails);
+AdminCustomerRouter.get("/orders", admin_customer_controller_1.AdminCustomerController.getAllOrders);
+AdminCustomerRouter.get("/customers", admin_customer_controller_1.AdminCustomerController.getAllCustomer);
+AdminCustomerRouter.get("/customers/:userId", admin_customer_controller_1.AdminCustomerController.getCustomerById);
+exports.default = AdminCustomerRouter;

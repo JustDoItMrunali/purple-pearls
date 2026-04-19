@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, AsyncPipe, Role],
+  imports: [RouterLink, AsyncPipe,Role],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
@@ -20,6 +20,8 @@ export class Navbar {
   isAdmin(): boolean {
     return this.authService.getUserRole() === 'admin';
   }
+
+
   logout() {
     this.authService.logout().subscribe({
       next: () => {

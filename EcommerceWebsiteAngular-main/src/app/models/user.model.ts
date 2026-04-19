@@ -5,6 +5,7 @@ export interface User {
   name: string;
   role: string;
   isLocked: boolean;
+  address:string;
 }
 
 export interface ApiResponse {

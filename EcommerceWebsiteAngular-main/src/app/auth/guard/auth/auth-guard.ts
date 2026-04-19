@@ -11,15 +11,14 @@ export const authGuard: CanActivateFn = (route, state) => {
     take(1),
     map((user) => {
       if (!user) {
-        return true;
+        return router.createUrlTree(['/login']);
       }
 
       // check if user is logged in !!
       if (user.role === 'ADMIN') {
         return router.createUrlTree(['/admin']);
-      } else {
-        return router.createUrlTree(['/dashboard']);
       }
+      return true;
     }),
   );
 };

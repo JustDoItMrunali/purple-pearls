@@ -1,49 +1,18 @@
+:host {
+  --primary-purple: #6c5ce7;
+  --primary-hover: #5a4bd1;
+  --bg-light: #f8f9ff;
+  --border-purple: #e0dcfc;
+  --white: #ffffff;
+  --text-dark: #2d3436;
+  --error: #e17055;
+}
+
 .container {
-  background-color: #f8f9ff;
+  background-color: var(--bg-light);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-.productType-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  padding: 20px;
-  background: #f8f7ff;
-  border-radius: 50px;
-  margin-bottom: 50px;
-}
-
-.type-item {
-  display: flex;
-  align-items: center;
-}
-
-.productType-grid p {
-  background: #ffffff;
-  padding: 10px 25px;
-  border-radius: 30px;
-  font-weight: 600;
-  font-size: 14px;
-  color: #6c5ce7;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: 0.2s ease-in-out;
-  margin: 0;
-}
-
-.productType-grid p:hover {
-  border-color: #6c5ce7;
-  background: #f1f0ff;
-  transform: scale(1.05);
-}
-
-.arrow {
-  margin-left: 10px;
-  color: #6c5ce7;
-  font-weight: bold;
 }
 
 .products {
@@ -54,99 +23,180 @@
   padding-bottom: 50px;
 }
 
+/* --- Search Section (Fixed Double Border) --- */
+.search-section {
+  width: 100%;
+  max-width: 600px;
+  margin: 30px auto 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-wrapper {
+  display: flex;
+  background: var(--white);
+  border: 2px solid var(--border-purple);
+  border-radius: 50px;
+  width: 100%;
+  padding: 5px 8px 5px 20px;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.05);
+  transition: all 0.3s ease;
+  align-items: center;
+}
+
+.search-wrapper:focus-within {
+  border-color: var(--primary-purple);
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.15);
+}
+
+.search-wrapper input {
+  flex: 1;
+  border: none; /* Removed the internal border */
+  outline: none;
+  padding: 10px 0;
+  font-size: 16px;
+  color: var(--text-dark);
+  background: transparent;
+}
+
+.search-btn {
+  background: var(--primary-purple);
+  color: var(--white);
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.search-btn:hover {
+  background: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+/* --- Filter Chips & Active States --- */
+.active-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filter-chip {
+  background: #f1f0ff;
+  border: 1px solid var(--primary-purple);
+  color: var(--primary-purple);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* --- Product Type Grid --- */
+.productType-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.type-chip {
+  background: var(--white);
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--primary-purple);
+  cursor: pointer;
+  border: 2px solid var(--border-purple);
+  transition: all 0.2s ease-in-out;
+}
+
+.type-chip:hover {
+  border-color: var(--primary-purple);
+  background: #f1f0ff;
+}
+
+.type-chip.active-type {
+  background: var(--primary-purple);
+  color: var(--white);
+  border-color: var(--primary-purple);
+}
+
+/* --- Product Grid Layout --- */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 25px;
   padding: 20px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
+/* --- Pagination --- */
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin-top: 30px;
+  gap: 12px;
+  margin-top: 40px;
 }
 
 .round-button {
-  height: 35px;
-  width: 35px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
-  background-color: var(--border-purple, #e0dcfc);
-  border: 2px solid var(--primary-purple, #6c5ce7);
-  color: var(--primary-purple, #6c5ce7);
-  font-weight: 900;
+  background-color: var(--white);
+  border: 2px solid var(--border-purple);
+  color: var(--primary-purple);
+  font-weight: 700;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.3s;
+  transition: all 0.3s;
 }
 
 .round-button.active {
-  background-color: var(--primary-purple, #6c5ce7);
-  color: var(--white, #ffffff);
+  background-color: var(--primary-purple);
+  color: var(--white);
+  border-color: var(--primary-purple);
 }
 
 .round-button:hover:not(.active) {
-  background-color: var(--primary-purple, #6c5ce7);
-  color: white;
+  border-color: var(--primary-purple);
+  background-color: #f1f0ff;
 }
 
-.empty,
-.loading {
-  text-align: center;
-  padding: 40px;
-  width: 100%;
-}
-
-.search-section {
-  display: flex;
-  justify-content: center;
-  padding: 30px 20px 10px 20px;
-}
-
-.search-wrapper {
-  display: flex;
-  background: white;
-  border: 2px solid var(--border-purple, #e0e0ff);
-  border-radius: 50px;
-  width: 100%;
-  max-width: 600px;
-  padding: 5px 15px;
-  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.05);
-  transition: 0.3s ease;
-}
-
-.search-wrapper:focus-within {
-  border-color: var(--primary-purple, #6c5ce7);
-  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.15);
-}
-
-.search-wrapper input {
-  flex: 1;
-  border: none;
-  outline: none;
-  padding: 10px 15px;
-  font-size: 16px;
-  color: #2d3436;
-}
-
-.search-btn {
-  background: none;
-  border: none;
+/* --- Global Utilities --- */
+.clear-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: var(--white);
+  border: 1px solid #ccc;
+  color: #666;
+  font-size: 13px;
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-btn:hover {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.empty-state, .loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 20px;
+  color: #888;
+}
+
+.empty-state p {
   font-size: 18px;
-  padding: 0 10px;
-  transition: transform 0.2s;
+  margin-bottom: 20px;
 }
-
-.search-btn:hover {
-  transform: scale(1.2);
-}
-
-

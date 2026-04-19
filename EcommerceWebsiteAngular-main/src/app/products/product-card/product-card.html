@@ -6,11 +6,16 @@
   }
 
   <div class="image-wrapper">
-    <img
-      [src]="product.imagePath ? 'http://localhost:3000/' + product.imagePath : 'assets/image.png'"
+    <!-- <img
+      [src]="
+        product.imagePath
+          ? 'http://localhost:3000/uploads/' + product.imagePath
+          : 'assets/image.png'
+      "
       [alt]="product.name"
       class="product-image"
-    />
+    /> -->
+    <img [src]="getProducImage(product.imagePath)" [alt]="product.name" class="product-image" />
   </div>
 
   <div class="product-content">
@@ -23,11 +28,12 @@
     <h3 class="product-title">{{ product.name }}</h3>
 
     <p class="product-description">
-      {{
+      <!-- {{
         product.description.length > 70
           ? (product.description | slice: 0 : 70) + '...'
           : product.description
-      }}
+      }} -->
+          {{product.description | truncate:30}}
     </p>
 
     <div class="pricing-row">
@@ -37,7 +43,7 @@
     <div class="card-actions">
       @if (isAdmin()) {
         <button
-          class="btn-edit"
+          class="btn-add-cart"
           (click)="$event.stopPropagation()"
           [routerLink]="['/admin/update-product', product.product_id]"
         >
@@ -53,7 +59,7 @@
       } @else {
         <button
           class="btn-buy-now"
-          [routerLink]="['/checkout', product.product_id]"
+          [routerLink]="['/customer/checkout', product.product_id]"
           (click)="$event.stopPropagation()"
         >
           Buy Now

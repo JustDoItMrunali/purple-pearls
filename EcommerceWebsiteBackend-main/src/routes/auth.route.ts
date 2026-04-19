@@ -22,5 +22,11 @@ AuthRouter.patch(
   AuthController.unlockAccount,
 );
 
+AuthRouter.patch(
+  "/users/:userId/editprofile",
+  requireAuth,
+  AuthController.editProfile,
+);
+
 AuthRouter.get("/get-users", requireAuth, AuthController.getUser);
 export default AuthRouter;

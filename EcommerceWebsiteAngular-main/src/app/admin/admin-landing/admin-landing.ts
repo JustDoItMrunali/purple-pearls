@@ -16,7 +16,6 @@ export class AdminLanding {
   public productService = inject(ProductService);
   constructor() {
     this.adminService.getCustomers().subscribe();
-    this.productService.getProducts().subscribe();
     this.adminService.getOrders().subscribe();
   }
 
